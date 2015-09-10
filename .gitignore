@@ -13,5 +13,4 @@ bower_components
 # build files
 dest
 
-views/critical-assets-css.twig
-views/critical-assets-js.twig
+views/_generated/
