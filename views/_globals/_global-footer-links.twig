@@ -1,0 +1,5 @@
+<nav class="_global-footer-links" role="navigation">
+    {% for link in links %}
+        {% include '_snippets/_snippet-link--med.twig' with {'link' : link} %}
+    {% endfor %}
+</nav>

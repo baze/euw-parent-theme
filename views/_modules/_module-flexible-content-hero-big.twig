@@ -1,0 +1,33 @@
+<div class="{{ post.classes | join(' ') }} {{ content.acf_fc_layout }}">
+
+    {% set item = content %}
+
+    <article class="{{ content.acf_fc_layout }}">
+        <h2 class="{{ content.acf_fc_layout }}-headline">
+            {{ item[content.acf_fc_layout ~ '-headline'] }}
+        </h2>
+
+        {% if item[content.acf_fc_layout ~ '-img'] %}
+            <div class="{{ content.acf_fc_layout }}-img">
+                <figure>
+                    <img src="{{ TimberImage(item[content.acf_fc_layout ~ '-img']) }}"
+                         alt="{{ TimberImage(item[content.acf_fc_layout ~ '-img']).caption }}"/>
+                    <figcaption>
+                        {{ TimberImage(item[content.acf_fc_layout ~ '-img']).caption }}
+                    </figcaption>
+                </figure>
+            </div>
+        {% endif %}
+
+        <div class="{{ content.acf_fc_layout }}-txt">
+            {{ item[content.acf_fc_layout ~ '-txt'] }}
+        </div>
+
+        {% if item[content.acf_fc_layout ~ '-link'] %}
+            <a class="btn" href="{{ item[content.acf_fc_layout ~ '-link'] }}">
+                {{ _e('Mehr erfahren') }}
+            </a>
+        {% endif %}
+    </article>
+
+</div>

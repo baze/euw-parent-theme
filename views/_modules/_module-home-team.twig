@@ -1,0 +1,34 @@
+<div class="container _module-home-team" id="home-team">
+    <div class="container-inner">
+
+        {% if post.get_field('team-title') %}
+            <h1 class="team-title">
+                {{ post.get_field('team-title') }}
+            </h1>
+        {% endif %}
+
+        {% if post.get_field('team-content') %}
+            <div class="team-content">
+                {{ post.get_field('team-content') }}
+            </div>
+        {% endif %}
+
+        {% if post.get_field('team-boss') %}
+            <div class="team-boss">
+                {% for person in post.get_field('team-boss') %}
+                    {% include '_snippets/_snippet-person--full.twig' with {'person': TimberPost(person)} %}
+                {% endfor %}
+            </div>
+        {% endif %}
+
+        {% if post.get_field('team-members') %}
+            <div class="team-members">
+                {% for person in post.get_field('team-members') %}
+                    {% include '_snippets/_snippet-person--small.twig' with {'person': TimberPost(person)} %}
+                {% endfor %}
+                </ul>
+            </div>
+        {% endif %}
+
+    </div>
+</div>

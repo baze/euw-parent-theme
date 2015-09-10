@@ -1,0 +1,13 @@
+{% extends "container.twig" %}
+
+{% block content %}
+
+    <section class="_module-about-members">
+
+        {% for member in members %}
+            {% include '_snippets/_snippet-person--med.twig' with {'person': member} %}
+        {% endfor %}
+
+    </section>
+
+{% endblock %}

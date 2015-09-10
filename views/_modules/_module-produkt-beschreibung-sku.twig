@@ -1,0 +1,10 @@
+{% if product.get_field('produkt-description-additional-sku-list') %}
+    <ul class="produkt-description-additional-sku-list">
+        {% for item in product.get_field('produkt-description-additional-sku-list') %}
+            <li class="produkt-description-additional-sku-list-entry">
+                <strong class="produkt-description-additional-sku-list-entry-type">{{ item['produkt-description-additional-sku-list-entry-type'] }}</strong>
+                <span class="produkt-description-additional-sku-list-entry-number">{{ item['produkt-description-additional-sku-list-entry-number'] }}</span>
+            </li>
+        {% endfor %}
+    </ul>
+{% endif %}

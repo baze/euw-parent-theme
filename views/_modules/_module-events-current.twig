@@ -1,0 +1,13 @@
+{% extends "container.twig" %}
+
+{% block content %}
+
+    <section class="_module-events-current">
+
+        <h2>{{ post.get_field('current-headline') }}</h2>
+
+        {% include('_modules/_module-events-current-open.twig') %}
+        {% include('_modules/_module-events-current-closed.twig') %}
+    </section>
+
+{% endblock %}

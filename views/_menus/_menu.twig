@@ -1,0 +1,18 @@
+<ul class="menu">
+    {% for item in menu.get_items %}
+        <li class="{{ item.classes | join(' ') }} main-menu-item
+        {% if item.get_children %}
+            dropdown
+        {% endif %}
+        ">
+            <a href="{{ item.get_path }}" class="main-menu-link
+                    {% if item.get_children %}
+                        dropdown-toggle
+                    {% endif %}
+                    ">{{ item.title }}</a>
+            {% if item.get_children %}
+                {% include('_menus/_submenu.twig') with {'item': item} %}
+            {% endif %}
+        </li>
+    {% endfor %}
+</ul>

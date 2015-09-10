@@ -1,0 +1,26 @@
+{% include 'header.twig' %}
+<body class="{{ body_class }}" itemscope itemtype="http://schema.org/WebPage">
+{#<span class="breakpoints"></span>#}
+    <div class="wrapper">
+
+        {% include('_globals/_global-oldbrowser.twig') %}
+        {#{% include('_globals/_global-navbar.twig') %}#}
+        {% include('_globals/_global-header.twig') %}
+
+        <main class="_global-main {{ post.class }}" role="main" id="main">
+
+            {#{% include('_snippets/_snippet-language-switcher.twig') %}#}
+
+            {% block content %}
+                Sorry, no content
+            {% endblock %}
+        </main>
+
+        {% block footer %}
+            {% include('_globals/_global-footer.twig') %}
+        {% endblock %}
+    </div>
+    {% include('non-critical-assets.twig') %}
+    {{ wp_footer }}
+    </body>
+</html>

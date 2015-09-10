@@ -1,0 +1,27 @@
+<article class="_snippet-related_page related_page related_page--med">
+
+    {% if related_page['related_page-link'] %}
+    <a href="{{ related_page['related_page-link'] }}">
+    {% endif %}
+
+    <h4 class="related_page-title">
+        {{ related_page['related_page-title'] }}
+    </h4>
+
+    <p class="related_page-subtitle">
+        {{ related_page['related_page-subtitle'] }}
+    </p>
+
+    {% if related_page['related_page-image'] %}
+        <img class="related_page-image" src="{{ TimberImage(related_page['related_page-image']) }}"
+             alt="{{ related_page['related_page-title'] }}"/>
+    {% else %}
+        <img class="related_page-image" src="{{ TimberImage(placeholder(400,400)) }}"
+             alt="{{ related_page['related_page-title'] }}"/>
+    {% endif %}
+
+    {% if related_page['related_page-link'] %}
+    </a>
+    {% endif %}
+
+</article>

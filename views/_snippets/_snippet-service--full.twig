@@ -1,0 +1,25 @@
+<article class="_snippet-service service service--full
+{% if service.get_thumbnail %}
+ has-image
+{% endif %}
+" itemscope itemtype="http://schema.org/ProfessionalService">
+
+    {% if service.get_thumbnail %}
+        <div class="service-image">
+            <img src="{{ TimberImage(service.get_thumbnail | default(placeholder(100,100))) }}" alt=""/>
+        </div>
+    {% endif %}
+
+    <header class="service-header">
+        <h4>{{ service.post_title }}</h4>
+    </header>
+
+    <div class="service-body">
+        {{ service.content }}
+
+        {% include('_snippets/_snippet-button.twig') with {'type': 'primary', 'label': _e('Contact us'), 'url':
+        TimberPost(service.contact_us_page) } %}
+    </div>
+
+
+</article>

@@ -1,0 +1,71 @@
+{% if product.get_field('produkt-section') %}
+    <section class="produkt-section section--hide" data-state="closed">
+        {% for item in product.get_field('produkt-section') %}
+            <h3 class="produkt-section-headline">{{ item['produkt-section-headline'] }}</h3>
+
+            {% if item['produkt-section-container'] %}
+                <div class="produkt-section-container">
+
+                    {% for section in item['produkt-section-container'] %}
+
+                        {% if section['acf_fc_layout'] == 'produkt-gallery-layout' %}
+                            <!-- Produktgalerie -->
+                            {% if section['produkt-gallery'] %}
+                                <div class="produkt-gallery">
+                                    {% for image in section['produkt-gallery'] %}
+                                        <a href="{{ image['url'] }}">
+                                            <figure class="produkt-gallery-figure">
+                                                <img class="produkt-gallery-figure-img"
+                                                     src="{{ image['sizes']['thumbnail'] }}"
+                                                     alt="{{ image['alt'] }}">
+                                                <figcaption class="produkt-gallery-caption">{{ image['caption']
+                                                }}</figcaption>
+                                            </figure>
+                                        </a>
+                                    {% endfor %}
+                                </div>
+                            {% endif %}
+                            <!-- Produktgalerie -->
+
+                        {% elseif section['acf_fc_layout'] == 'produkt-additional-infos-layout' %}
+                            <!-- Zusatz-Infos -->
+                            <div class="produkt-additional-infos">
+
+                                <div class="produkt-additional-infos-main">
+                                    <div class="produkt-additional-infos-main-section">
+                                        <h4 class="produkt-additional-infos-main-section-headline">{{ section['produkt-additional-infos-main-section-headline'] }}</h4>
+
+                                        <div class="produkt-additional-infos-main-section-content">
+                                            {{ section['produkt-additional-infos-main-section-content'] }}
+                                        </div>
+                                    </div>
+                                </div>
+
+                                {% if section['produkt-additional-infos-sidebar'] %}
+                                    <aside class="produkt-additional-infos-sidebar">
+                                        {% for entry in section['produkt-additional-infos-sidebar'] %}
+                                            <div class="produkt-additional-infos-sidebar-entry">
+                                                <figure class="produkt-additional-infos-sidebar-entry-figure">
+                                                    <img src="{{ entry['produkt-additional-infos-sidebar-entry-figure'] }}"
+                                                         alt="{{ entry['produkt-additional-infos-sidebar-entry-text'] }}">
+                                                </figure>
+                                                <div class="produkt-additional-infos-sidebar-entry-text">
+                                                    {{ entry['produkt-additional-infos-sidebar-entry-text'] }}
+                                                </div>
+                                            </div>
+                                            <!-- Sidebar-Eintrag -->
+                                        {% endfor %}
+                                    </aside>
+                                {% endif %}
+                            </div>
+
+                            <!-- Zusatz-Infos -->
+                        {% endif %}
+
+                    {% endfor %}
+                </div>
+            {% endif %}
+
+        {% endfor %}
+    </section>
+{% endif %}

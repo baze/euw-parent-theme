@@ -1,0 +1,18 @@
+{
+    "name": "bjoernmartensen/wp-starter-theme",
+    "authors": [
+        {
+            "name": "Bjoern Martensen",
+            "email": "martensen@euw.de"
+        }
+    ],
+    "require": {
+        "nesbot/carbon": "^1.20",
+        "mobiledetect/mobiledetectlib": "^2.8"
+    },
+    "autoload": {
+        "psr-4": {
+            "Theme\\": "_inc/"
+        }
+    }
+}

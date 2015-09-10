@@ -1,0 +1,20 @@
+{% extends "container.twig" %}
+
+{% block content %}
+
+    <section class="_module-home-about">
+        <h2>{{ post.get_field('about-headline') }}</h2>
+
+        <img src="{{ TimberImage(post.get_field('about-image') | default(placeholder(310,155))) }}" alt=""/>
+
+
+        <div>
+            {{ post.get_field('about-description') }}
+
+            <p>
+                {% include('_snippets/_snippet-button.twig') with {'type': 'primary', 'label': _e('Mehr erfahren'), 'url': post.get_field('about-link') } %}
+            </p>
+        </div>
+    </section>
+
+{% endblock %}

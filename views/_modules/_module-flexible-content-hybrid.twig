@@ -1,0 +1,14 @@
+<div class="{{ post.classes | join(' ') }} {{ content.acf_fc_layout }} {{ content[content.acf_fc_layout ~ '-flow'] }}">
+
+    {% if content[content.acf_fc_layout ~ '-img'] %}
+        <div class="{{ content.acf_fc_layout }}-img">
+            <img src="{{ TimberImage(content[content.acf_fc_layout ~ '-img']) }}"
+                 alt="{{ TimberImage(content[content.acf_fc_layout ~ '-img']).caption }}"/>
+        </div>
+    {% endif %}
+
+    <div class="{{ content.acf_fc_layout }}-txt">
+        {{ content[content.acf_fc_layout ~ '-txt'] }}
+    </div>
+
+</div>

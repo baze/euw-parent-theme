@@ -1,0 +1,17 @@
+{% extends "container.twig" %}
+
+{% block content %}
+
+    <div class="_module-posts">
+        {% if posts %}
+            {% for post in posts %}
+                {% include '_snippets/_snippet-post--med.twig' with {'post': post} %}
+            {% endfor %}
+        {% else %}
+
+        {% endif %}
+
+        {% include '_snippets/_snippet-pagination.twig' %}
+    </div>
+
+{% endblock %}

@@ -1,0 +1,30 @@
+<article class="_module-produkt produkt produkt--full" itemscope itemtype="http://schema.org/ProductModel">
+
+    <h1 class="produkt-titel" itemprop="name">{{ product.title }}</h1>
+
+    <section class="produkt-section section--full">
+        {% include('_modules/_module-produkt-figure.twig') %}
+        {% include('_modules/_module-produkt-beschreibung.twig') %}
+
+        <div class="bestellformular">
+            {% if product.get_field('bestellformular') %}
+                {{ product.get_field('bestellformular') }}
+            {% endif %}
+        </div>
+
+        <div class="produkt-features" itemprop="features">
+
+            {% if product.get_field('features') %}
+                <ul>
+                    {% for feature in product.get_field('features') %}
+                        <li>{{ feature.title }}</li>
+                    {% endfor %}
+                </ul>
+            {% endif %}
+
+        </div>
+    </section>
+
+    {% include('_modules/_module-produkt-section.twig') %}
+
+</article>

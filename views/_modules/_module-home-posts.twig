@@ -1,0 +1,27 @@
+{% extends "container.twig" %}
+
+{% block content %}
+
+    <section class="_module-home-posts">
+        <h2>{{ post.get_field('posts-headline') }}</h2>
+
+        <div class="_module-home-posts-container">
+
+            <div class="_module-home-posts--icon">
+                <div>
+                    <div>
+                        <img src="{{ theme.link }}/dest/img/icon-posts.png" alt=""/>
+                    </div>
+                </div>
+            </div>
+
+            <div class="_module-home-posts--posts">
+                {% for p in posts %}
+                    {% include('_snippets/_snippet-post--small.twig') with {'post': p, 'buttonText': _e('Read more')} %}
+                {% endfor %}
+            </div>
+
+        </div>
+    </section>
+
+{% endblock %}

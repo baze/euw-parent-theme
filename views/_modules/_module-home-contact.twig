@@ -1,0 +1,23 @@
+<div class="container _module-home-contact" id="home-contact">
+    <div class="container-inner">
+
+        {% if post.get_field('contact-title') %}
+            <h1 class="contact-title">
+                {{ post.get_field('contact-title') }}
+            </h1>
+        {% endif %}
+
+        {% if post.get_field('contact-content') %}
+            <div class="contact-content">
+                {{ post.get_field('contact-content') }}
+            </div>
+        {% endif %}
+
+        {% if post.get_field('contact-form') %}
+            <div class="contact-form">
+                {{ post.get_field('contact-form') }}
+            </div>
+        {% endif %}
+
+    </div>
+</div>

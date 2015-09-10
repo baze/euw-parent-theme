@@ -1,0 +1,16 @@
+<a class="_snippet-link _snippet-link--med"
+   title="{{ link.post_title }}"
+   href="{{ link.get_field('link-url') }}"
+        {% if link.get_field('link-target') %}
+            target="_blank"
+        {% endif %}
+        >
+
+    <span class="link-image">
+        <img src="{{ TimberImage(link.get_thumbnail | default(placeholder(167,60))) | letterbox(167,60, '#ffffff') }}"/>
+    </span>
+
+    <span class="link-title">
+        {{ link.post_title }}
+    </span>
+</a>

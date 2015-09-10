@@ -1,0 +1,33 @@
+{% if not type %}
+    {% set type = 'global' %}
+{% endif %}
+
+<section class="_module-openinghours">
+    <h4 class="openinghours-headline">{{ _e('Wir sind für euch da:') }}</h4>
+
+    {% if hours %}
+    <ul>
+        {% for hour in hours %}
+            <li>
+                {% if hour['type'] == 'range' %}
+                    <span class="openinghours-range">
+                        <span class="openinghours-range-weekday">
+                            {{ hour['range'][0]['from'] }} –
+                        </span>
+                        <span class="openinghours-range-weekday">
+                            {{ hour['range'][0]['until'] }}
+                        </span>
+                    </span>
+                {% else %}
+                    <span class="openinghours-weekday">
+                        {{ hour['weekday'] }}
+                    </span>
+                {% endif %}
+
+                <span class="openinghours-timespan">{{ hour['timespan'] }}</span>
+            </li>
+        {% endfor %}
+    </ul>
+    {% endif %}
+
+</section>

@@ -1,0 +1,14 @@
+<section class="_module-page-header">
+    <div class="container-inner"
+         style="background-image: url({{ TimberImage(post.get_thumbnail | default(placeholder(1024,532))) }})">
+        <div>
+            {% if post.get_field('page-header-headline') %}
+            <h1 class="page-header-headline">{{ post.get_field('page-header-headline') }}</h1>
+            {% endif %}
+
+            {% if post.get_field('page-header-subline') %}
+            <h2 class="page-header-subline">{{ post.get_field('page-header-subline') }}</h2>
+            {% endif %}
+        </div>
+    </div>
+</section>

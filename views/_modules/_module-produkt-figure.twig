@@ -1,0 +1,8 @@
+<figure class="produkt-figure">
+    {% if post.thumbnail %}
+        <img src="{{ product.thumbnail.src }}" class="produkt-figure-img" itemprop="image"/>
+    {% endif %}
+    <figcaption class="produkt-figure-caption">
+        {{ product.thumbnail.alt }}
+    </figcaption>
+</figure>

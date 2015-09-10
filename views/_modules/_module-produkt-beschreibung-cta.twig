@@ -1,0 +1,13 @@
+{% if product.get_field('produkt-description-additional-cta') %}
+<div class="produkt-description-additional-cta">
+    {% for item in product.get_field('produkt-description-additional-cta') %}
+        <h3 class="produkt-description-additional-cta-headline">{{ item['produkt-description-additional-cta-headline'] }}</h3>
+
+        <div class="produkt-description-additional-cta-content">{{ item['produkt-description-additional-cta-content'] }}</div>
+        <a class="produkt-description-additional-cta-link"
+           href="{{ item['produkt-description-additional-cta-link'] }}">
+            <button class="produkt-description-additional-cta-text">{{ item['produkt-description-additional-cta-text'] }}</button>
+        </a>
+    {% endfor %}
+</div>
+{% endif %}

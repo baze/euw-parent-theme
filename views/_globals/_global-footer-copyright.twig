@@ -1,0 +1,9 @@
+<div class="_global-footer-copyright">
+    <div class="_global-footer-copyright-container">
+        ©
+        {% if creationDate != "now"|date('Y') %}
+            {{ creationDate }} -
+        {% endif %}
+        {{ "now"|date('Y') }} {{ _e('Alle Rechte vorbehalten.') }}
+    </div>
+</div>

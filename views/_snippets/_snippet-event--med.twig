@@ -1,0 +1,24 @@
+<article class="_snippet-event event event--med">
+    <header class="event-header">
+        <h4><a href="{{ event.link }}">{{ event.post_title }}</a></h4>
+    </header>
+
+    <div>
+        <div class="event-body">
+            <p>{% include '_snippets/_snippet-event-dates.twig' %}</p>
+        </div>
+
+        <div class="event-footer">
+            {% include('_snippets/_snippet-button.twig') with {'type': 'secondary', 'label': _e('Learn more'), 'url': event.link} %}
+
+            {% if event.get_field('sign_up_page') %}
+                {% set relations = TimberPost(event.get_field('sign_up_page')) %}
+                {% include('_snippets/_snippet-button.twig') with {'type': 'primary', 'label': _e('Sign up'), 'url': relations[0].link } %}
+            {% endif %}
+
+            {% if event.get_field('pdf_document') %}
+                {% include('_snippets/_snippet-button.twig') with {'type': 'secondary', 'label': _e('PDF Document'), 'url': event.get_field('pdf_document'), 'newWindow': true } %}
+            {% endif %}
+        </div>
+    </div>
+</article>

@@ -1,0 +1,17 @@
+<div class="_snippet-slide">
+    {% if (slide.image) %}
+        <img class="slide-image" src="{{ TimberImage(slide.image|default(placeholder(161,161))) }}"
+             alt=""/>
+    {% endif %}
+    <div class="slide-content">
+        <div class="slide-container">
+            {% if (slide.title) %}
+                <h2 class="slide-title">{{ slide.title }}</h2>
+            {% endif %}
+
+            {% if (slide.subtitle) %}
+                <h3 class="slide-subtitle">{{ slide.subtitle }}</h3>
+            {% endif %}
+        </div>
+    </div>
+</div>

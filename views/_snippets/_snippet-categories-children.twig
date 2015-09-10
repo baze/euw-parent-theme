@@ -1,0 +1,12 @@
+<ul>
+    {% for child in category.children %}
+        <li><a href="{{ child.link }}">{{ child.name }}</a></li>
+        {% if child.children %}
+            {% include('_snippets/_snippet-categories-children.twig') with {'category': child,
+            'showPosts': showPosts} %}
+        {% endif %}
+        {% if child.posts and showPosts %}
+            {% include('_snippets/_snippet-categories-posts.twig') with {'category': child} %}
+        {% endif %}
+    {% endfor %}
+</ul>

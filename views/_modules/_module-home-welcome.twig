@@ -1,0 +1,37 @@
+<div class="_module-home-welcome">
+
+    {% if post.get_field('welcome-title') %}
+        <h1 class="welcome-title">
+            {{ post.get_field('welcome-title') }}
+        </h1>
+    {% endif %}
+
+    {% if post.get_field('welcome-subtitle') %}
+        <h3 class="welcome-subtitle">
+            {{ post.get_field('welcome-subtitle') }}
+        </h3>
+    {% endif %}
+
+    {% if post.get_field('welcome-quote') %}
+    <blockquote class="welcome-quote">
+        <h3 class="quote">{{ post.get_field('welcome-quote') }}</h3>
+
+        {% if post.get_field('welcome-quotee') %}
+        <footer class="quotee">— {{ post.get_field('welcome-quotee') }}</footer>
+        {% endif %}
+    </blockquote>
+    {% endif %}
+
+    {% if post.get_field('welcome-content') %}
+        <div class="welcome-content">
+            {{ post.get_field('welcome-content') }}
+        </div>
+    {% endif %}
+
+    {% if post.get_field('welcome-form') %}
+        <div class="welcome-form">
+            {{ post.get_field('welcome-form') }}
+        </div>
+    {% endif %}
+
+</div>

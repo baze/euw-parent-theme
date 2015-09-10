@@ -1,0 +1,15 @@
+{% extends "container.twig" %}
+
+{% block content %}
+
+    <section class="_module-home-events">
+        <h2>{{ post.get_field('events-headline') }}</h2>
+
+        <div class="_module-home-events--events">
+            {% for event in post.get_field('events-events') %}
+                {% include('_snippets/_snippet-event--small.twig') with {'event': TimberPost(event), 'buttonText': _e('Sign up')} %}
+            {% endfor %}
+        </div>
+    </section>
+
+{% endblock %}

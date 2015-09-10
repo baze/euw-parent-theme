@@ -1,0 +1,13 @@
+<section class="comments accordion">
+    <div class="respond accordion-headline">
+        <h3 class="h2">Comments</h3>
+        {{ comment_form }}
+    </div>
+    <div class="responses accordion-inner">
+
+        {% for cmt in post.get_comments() %}
+            {% include "comment.twig" with {comment:cmt} %}
+        {% endfor %}
+    </div>
+
+</section>

@@ -1,0 +1,10 @@
+{% extends "base.twig" %}
+
+{% block content %}
+
+    <h2>Posts tagged with "{{ term.name }}"</h2>
+    {% for post in term.get_posts %}
+        <h3>{{ post.title }}</h3>
+    {% endfor %}
+
+{% endblock %}

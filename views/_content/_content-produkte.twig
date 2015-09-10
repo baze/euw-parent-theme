@@ -1,0 +1,11 @@
+<div class="_content-produkte">
+
+    <div class="_content-produkte-description">
+        {{ post.get_content }}
+    </div>
+
+    <section class="_content-produkte-list">
+        {% include('_snippets/_snippet-categories.twig') with {'categories': categories, 'showPosts': true} %}
+    </section>
+
+</div>

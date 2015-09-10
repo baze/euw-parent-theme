@@ -1,0 +1,9 @@
+<div class="produkt-description" itemprop="description">
+    <div class="produkt-description-content">
+        {{ product.content }}
+    </div>
+    <div class="produkt-description-additional">
+        {% include('_modules/_module-produkt-beschreibung-sku.twig') %}
+        {% include('_modules/_module-produkt-beschreibung-cta.twig') %}
+    </div>
+</div>

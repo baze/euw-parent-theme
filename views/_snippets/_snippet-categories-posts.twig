@@ -1,0 +1,8 @@
+<ul>
+    {% for post in category.get_posts({'numberposts' : -1, 'orderby' : 'title'}) %}
+        <li>
+            <a href="{{ post.link }}">{% include('_modules/_module-'~post.post_type~'--med.twig') with {'post': post}
+                %}</a>
+        </li>
+    {% endfor %}
+</ul>

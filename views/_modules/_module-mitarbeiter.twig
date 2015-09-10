@@ -1,0 +1,17 @@
+{% extends "container.twig" %}
+
+{% block content %}
+
+    <section class="_module-mitarbeiter">
+
+        {{ post.content }}
+
+        <div class="_module-mitarbeiter-list">
+            {% for person in posts %}
+                {% include '_snippets/_snippet-person--small.twig' with {'person': person} %}
+            {% endfor %}
+        </div>
+
+    </section>
+
+{% endblock %}

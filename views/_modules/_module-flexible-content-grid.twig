@@ -1,0 +1,9 @@
+<div class="{{ post.classes | join(' ') }} {{ content.acf_fc_layout }}">
+
+    {% for item in content['flexible-content-grid-entry'] %}
+        <article class="flexible-content-grid-entry {{ content['flexible-content-grid-size'] }}">
+            {% include '_snippets/_snippet-post--small.twig' with {'post': TimberPost(item)} %}
+        </article>
+    {% endfor %}
+
+</div>

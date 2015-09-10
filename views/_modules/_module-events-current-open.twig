@@ -1,0 +1,13 @@
+<div class="_module-events-current--open accordion">
+    <div class="accordion-headline">
+        <h3>{{ post.get_field('current-headline-open') }}</h3>
+
+        <p>{{ post.get_field('current-description-open') }}</p>
+    </div>
+
+    <div class="accordion-inner">
+        {% for course in courses_open %}
+            {% include('_snippets/_snippet-event--med.twig') with {'event': course} %}
+        {% endfor %}
+    </div>
+</div>

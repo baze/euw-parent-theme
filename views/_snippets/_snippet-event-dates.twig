@@ -1,0 +1,9 @@
+<strong>{{ _e('Location') }}: </strong>
+{{ event.map.display }}<br/>
+
+<strong>{{ _e('Timeframe') }}: </strong>
+{{ event.start.formatLocalized('%A %d %B %Y')  }}
+– {{ event.end.formatLocalized('%A %d %B %Y') }}<br/>
+
+<strong>{{ _e('Duration') }}: </strong>
+{{ event.duration }}

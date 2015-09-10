@@ -1,0 +1,11 @@
+{% if pages %}
+    <div class="_module-related-pages">
+        {% for page in pages %}
+            <a href="{{ page.link }}">
+                <img src="{{ TimberImage(page.image|default(placeholder(161,161))) }}" alt=""/>
+
+                <p><strong>{{ page.title }}</strong></p>
+            </a>
+        {% endfor %}
+    </div>
+{% endif %}

@@ -1,0 +1,12 @@
+{% if not slides %}
+    {% set slides = post.get_field('slides') %}
+{% endif %}
+<div class="_module-slider flexslider">
+    <ul class="slides">
+        {% for slide in slides %}
+
+            <li>{% include '_snippets/_snippet-slide.twig' with { 'slide' : slide } %}</li>
+
+        {% endfor %}
+    </ul>
+</div>

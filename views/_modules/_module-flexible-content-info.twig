@@ -1,0 +1,15 @@
+<div class="{{ post.classes | join(' ') }} {{ content.acf_fc_layout }}">
+
+    <div class="{{ content.acf_fc_layout }}-main">
+        {{ content[content.acf_fc_layout ~ '-main'] }}
+    </div>
+
+    <aside class="{{ content.acf_fc_layout }}-aside">
+        {{ content[content.acf_fc_layout ~ '-aside'] }}
+        <a href="{{ content[content.acf_fc_layout ~ '-link'] }}"
+           class="{{ content.acf_fc_layout }}-link-text">
+            {{ content[content.acf_fc_layout ~ '-link-text'] }}
+        </a>
+    </aside>
+
+</div>

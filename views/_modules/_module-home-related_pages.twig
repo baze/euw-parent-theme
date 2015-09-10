@@ -1,0 +1,29 @@
+<div class="container _module-home-related-pages" id="home-related-pages"
+        {% if post.get_field('related_pages-bg_image') %}
+            style="background-image: url({{ post.get_field('related_pages-bg_image') }})"
+        {% endif %}
+        >
+    <div class="container-inner">
+
+        {% if post.get_field('related_pages-title') %}
+            <h3 class="related_pages-title">
+                {{ post.get_field('related_pages-title') }}
+            </h3>
+        {% endif %}
+
+        {% if post.get_field('related_pages-content') %}
+            <div class="related_pages-content">
+                {{ post.get_field('related_pages-content') }}
+            </div>
+        {% endif %}
+
+        {% if post.get_field('related_pages') %}
+            <div class="related_pages-list">
+                {% for related_page in post.get_field('related_pages') %}
+                    {% include '_snippets/_snippet-related_page--med.twig' with {'related_page': related_page} %}
+                {% endfor %}
+            </div>
+        {% endif %}
+
+    </div>
+</div>

@@ -1,0 +1,21 @@
+<div class="_module-events-current--closed accordion">
+    <div class="accordion-headline">
+        <h3>{{ post.get_field('current-headline-closed') }}</h3>
+
+        <p>{{ post.get_field('current-description-closed') }}</p>
+
+        <p>
+            {% include('_snippets/_snippet-button.twig') with {'type': 'secondary', 'label': _e('Contact us'), 'url': TimberPost(post.contact_page) } %}
+        </p>
+    </div>
+
+    <div class="accordion-inner">
+        {% for course in courses_closed %}
+            <article>
+                <h4>{{ course.post_title }}</h4>
+
+                <p>{{ course.post_excerpt }}</p>
+            </article>
+        {% endfor %}
+    </div>
+</div>

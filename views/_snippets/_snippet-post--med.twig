@@ -1,0 +1,19 @@
+<article class="post post--med post-type-{{ post.post_type }}" id="post-{{ post.ID }}">
+    <section class="article-content">
+        <header class="post-header">
+            <h2 class="post-title"><a href="{{ post.link }}">{{ post.post_title }}</a></h2>
+
+            <p class="blog-author">{{ post.display_date }}</p>
+        </header>
+
+        <div class="post-body">
+            {{ post.content }}
+        </div>
+
+        <div class="post-footer">
+            {% include('_snippets/_snippet-button.twig') with {'type': 'secondary', 'label': _e('Weiter lesen'), 'url':
+            post.link} %}
+        </div>
+    </section>
+
+</article>

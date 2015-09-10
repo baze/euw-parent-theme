@@ -1,0 +1,14 @@
+{% if post.get_field('flexible-content') %}
+    <section class="_module-flexible-content flexible-content">
+
+        {% for content in post.get_field('flexible-content') %}
+
+            <section class="flexible-content-layout">
+                {% include '_modules/_module-' ~ content.acf_fc_layout ~ '.twig'
+                    with {'post' : post, 'content': content} %}
+            </section>
+
+        {% endfor %}
+
+    </section>
+{% endif %}

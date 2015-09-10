@@ -1,0 +1,34 @@
+{% if options['social-linkedin']
+or options['social-twitter']
+or options['social-google-plus']
+or options['social-facebook'] %}
+
+<nav class="sticky-nav sticky-nav-left">
+    <ul>
+        {% if options['social-linkedin'] %}
+            <li>
+                <a href="{{ options['social-linkedin'] }}" target="_blank"><i class="fa fa-linkedin-square"></i></a>
+            </li>
+        {% endif %}
+
+        {% if options['social-twitter'] %}
+            <li>
+                <a href="{{ options['social-twitter'] }}" target="_blank"><i class="fa fa-twitter-square"></i></a>
+            </li>
+        {% endif %}
+
+        {% if options['social-google-plus'] %}
+            <li>
+                <a href="{{ options['social-facebook'] }}" target="_blank"><i class="fa fa-google-plus-square"></i></a>
+            </li>
+        {% endif %}
+
+        {% if options['social-facebook'] %}
+            <li>
+                <a href="{{ options['social-facebook'] }}" target="_blank"><i class="fa fa-facebook-square"></i></a>
+            </li>
+        {% endif %}
+    </ul>
+</nav>
+
+{% endif %}

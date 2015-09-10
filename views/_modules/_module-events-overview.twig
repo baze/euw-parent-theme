@@ -1,0 +1,16 @@
+{% extends "container.twig" %}
+
+{% block content %}
+
+    <section class="_module-events-overview">
+
+        <h2>{{ post.get_field('overview-headline') }}</h2>
+
+        <div class="_module-events-overview--events">
+            {% include('_snippets/_snippet-list-articles-small.twig') with {'columns': post.get_field('overview-columns') |
+            default(3) } %}
+        </div>
+
+    </section>
+
+{% endblock %}

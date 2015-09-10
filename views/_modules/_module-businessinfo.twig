@@ -1,0 +1,31 @@
+<div class="_module-businessinfo businessinfo--full" itemscope itemtype="http://schema.org/LocalBusiness">
+    <div class="businessinfo-name" itemprop="name">{{ global_businessinfo_firmenbezeichnung }}</div>
+    <div class="businessinfo-address" itemprop="address" itemscope itemtype="http://schema.org/PostalAddress">
+        <span class="businessinfo-streetAddress"
+              itemprop="streetAddress">{{ global_businessinfo_strasse_hausnummer }}</span>
+        <span class="businessinfo-postalCode"
+              itemprop="postalCode">{{ global_businessinfo_postleitzahl }}</span>
+        <span class="businessinfo-addressLocality"
+              itemprop="addressLocality">{{ global_businessinfo_ort }}</span>
+        <span class="businessinfo-addressRegion"
+              itemprop="addressRegion">{{ global_businessinfo_bundesland }}</span>
+        {% if global_businessinfo_land %}
+            , <span class="businessinfo-addressCountry"
+                    itemprop="addressCountry">{{ global_businessinfo_land }}</span>
+        {% endif %}
+    </div>
+    <div class="businessinfo-contact">
+        <span class="businessinfo-telephone">
+            <strong>{{ _e('Telefon') }}:</strong>
+            <span itemprop="telephone">
+                <a href="tel:{{ global_businessinfo_telefon_link }}">{{ global_businessinfo_telefon }}</a>
+            </span>
+        </span>
+        <span class="businessinfo-email">
+            <strong>{{ _e('E-Mail') }}:</strong>
+            <span itemprop="email">
+                <a href="mailto:{{ global_businessinfo_email }}">{{ global_businessinfo_email }}</a>
+            </span>
+        </span>
+    </div>
+</div>

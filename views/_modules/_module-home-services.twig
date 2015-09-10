@@ -1,0 +1,29 @@
+<div class="container _module-home-services" id="home-services"
+        {% if post.get_field('services-bg_image') %}
+            style="background-image: url({{ post.get_field('services-bg_image') }})"
+        {% endif %}
+        >
+    <div class="container-inner">
+
+        {% if post.get_field('services-title') %}
+            <h1 class="services-title">
+                {{ post.get_field('services-title') }}
+            </h1>
+        {% endif %}
+
+        {% if post.get_field('services-content') %}
+            <div class="services-content">
+                {{ post.get_field('services-content') }}
+            </div>
+        {% endif %}
+
+        {% if post.get_field('services-list') %}
+            <div class="services-list">
+                {% for service in post.get_field('services-list') %}
+                    {% include '_snippets/_snippet-service--small.twig' with {'service': TimberPost(service)} %}
+                {% endfor %}
+            </div>
+        {% endif %}
+
+    </div>
+</div>
