@@ -45,8 +45,8 @@ if ( ! class_exists( 'ParentSite' ) ) {
 			) );
 			add_filter( 'timber_context', array( $this, 'add_to_context' ) );
 			add_filter( 'get_twig', array( $this, 'add_to_twig' ) );
-//			add_action( 'init', array( $this, 'register_post_types' ) );
-//			add_action( 'init', array( $this, 'register_taxonomies' ) );
+			add_action( 'init', array( $this, 'register_post_types' ) );
+			add_action( 'init', array( $this, 'register_taxonomies' ) );
 			add_action( 'init', array( $this, 'register_menus' ) );
 			add_action( 'init', array( $this, 'register_strings' ) );
 			add_action( 'init', array( $this, 'really_block_users' ) );
@@ -61,8 +61,6 @@ if ( ! class_exists( 'ParentSite' ) ) {
 			add_filter( 'wpcf7_load_css', '__return_false' );
 
 			$this->creationDate = Carbon::now();
-			$this->creationDate->setDate( 2014, 01, 01 );
-
 			$this->analyticsProfile = null;
 		}
 
@@ -134,62 +132,61 @@ if ( ! class_exists( 'ParentSite' ) ) {
 		function register_strings() {
 			if ( function_exists( 'pll_register_string' ) ) {
 				// Datenschutz
-				register_string( 'Datenschutz' );
-				register_string( get_field( 'datenschutz-preambel', 'options' ), 'euw', true );
-				register_string( 'Datenschutzerklärung für die Nutzung von Facebook-Plugins (Like-Button)' );
-				register_string( get_field( 'datenschutz-like', 'options' ), 'euw', true );
-				register_string( 'Datenschutzerklärung für die Nutzung von Google Analytics' );
-				register_string( get_field( 'datenschutz-analytics', 'options' ), 'euw', true );
-				register_string( 'Datenschutzerklärung für die Nutzung von Google Adsense' );
-				register_string( get_field( 'datenschutz-adsense', 'options' ), 'euw', true );
-				register_string( 'Datenschutzerklärung für die Nutzung von Google +1' );
-				register_string( get_field( 'datenschutz-plus', 'options' ), 'euw', true );
-				register_string( 'Datenschutzerklärung für die Nutzung von Twitter' );
-				register_string( get_field( 'datenschutz-twitter', 'options' ), 'euw', true );
+				$this->register_string( 'Datenschutz' );
+				$this->register_string( get_field( 'datenschutz-preambel', 'options' ), 'euw', true );
+				$this->register_string( 'Datenschutzerklärung für die Nutzung von Facebook-Plugins (Like-Button)' );
+				$this->register_string( get_field( 'datenschutz-like', 'options' ), 'euw', true );
+				$this->register_string( 'Datenschutzerklärung für die Nutzung von Google Analytics' );
+				$this->register_string( get_field( 'datenschutz-analytics', 'options' ), 'euw', true );
+				$this->register_string( 'Datenschutzerklärung für die Nutzung von Google Adsense' );
+				$this->register_string( get_field( 'datenschutz-adsense', 'options' ), 'euw', true );
+				$this->register_string( 'Datenschutzerklärung für die Nutzung von Google +1' );
+				$this->register_string( get_field( 'datenschutz-plus', 'options' ), 'euw', true );
+				$this->register_string( 'Datenschutzerklärung für die Nutzung von Twitter' );
+				$this->register_string( get_field( 'datenschutz-twitter', 'options' ), 'euw', true );
 
 				// Impressum
-				register_string( 'Disclaimer' );
-				register_string( get_field( 'disclaimer_anzeigen', 'options' ), 'euw', false );
-				register_string( 'Haftung für Inhalte' );
-				register_string( get_field( 'haftung-fuer-inhalte', 'options' ), 'euw', true );
-				register_string( 'Haftung für Links' );
-				register_string( get_field( 'haftung-fuer-links', 'options' ), 'euw', true );
-				register_string( 'Urheberrecht' );
-				register_string( get_field( 'urheberrecht', 'options' ), 'euw', true );
+				$this->register_string( 'Disclaimer' );
+				$this->register_string( get_field( 'disclaimer_anzeigen', 'options' ), 'euw', false );
+				$this->register_string( 'Haftung für Inhalte' );
+				$this->register_string( get_field( 'haftung-fuer-inhalte', 'options' ), 'euw', true );
+				$this->register_string( 'Haftung für Links' );
+				$this->register_string( get_field( 'haftung-fuer-links', 'options' ), 'euw', true );
+				$this->register_string( 'Urheberrecht' );
+				$this->register_string( get_field( 'urheberrecht', 'options' ), 'euw', true );
 
 				// tmg
-				register_string( 'Angaben gemäß § 5 TMG:' );
-				register_string( get_field( 'firmenbezeichnung', 'options' ), 'euw', false );
-				register_string( get_field( 'strasse_hausnummer', 'options' ), 'euw', false );
-				register_string( get_field( 'postleitzahl', 'options' ), 'euw', false );
-				register_string( get_field( 'ort', 'options' ), 'euw', false );
-				register_string( 'Vertreten durch:' );
-				register_string( get_field( 'vertretungsberechtigt', 'options' ), 'euw', true );
-				register_string( 'Kontakt' );
-				register_string( 'Telefon:' );
-				register_string( get_field( 'telefon', 'options' ), 'euw', false );
-				register_string( 'Telefax:' );
-				register_string( get_field( 'telefax', 'options' ), 'euw', false );
-				register_string( 'E-Mail:' );
-				register_string( get_field( 'e-mail', 'options' ), 'euw', false );
-				register_string( 'Registereintrag' );
-				register_string( get_field( 'registereintrag-art', 'options' ), 'euw', true );
-				register_string( get_field( 'registergericht', 'options' ), 'euw', true );
-				register_string( get_field( 'registernummer', 'options' ), 'euw', true );
-				register_string( 'Umsatzsteuer-ID:' );
-				register_string( 'Umsatzsteuer-Identifikationsnummer gemäß §27 a Umsatzsteuergesetz:' );
-				register_string( get_field( 'ust-id', 'options' ), 'euw', false );
+				$this->register_string( 'Angaben gemäß § 5 TMG:' );
+				$this->register_string( get_field( 'firmenbezeichnung', 'options' ), 'euw', false );
+				$this->register_string( get_field( 'strasse_hausnummer', 'options' ), 'euw', false );
+				$this->register_string( get_field( 'postleitzahl', 'options' ), 'euw', false );
+				$this->register_string( get_field( 'ort', 'options' ), 'euw', false );
+				$this->register_string( 'Vertreten durch:' );
+				$this->register_string( get_field( 'vertretungsberechtigt', 'options' ), 'euw', true );
+				$this->register_string( 'Kontakt' );
+				$this->register_string( 'Telefon:' );
+				$this->register_string( get_field( 'telefon', 'options' ), 'euw', false );
+				$this->register_string( 'Telefax:' );
+				$this->register_string( get_field( 'telefax', 'options' ), 'euw', false );
+				$this->register_string( 'E-Mail:' );
+				$this->register_string( get_field( 'e-mail', 'options' ), 'euw', false );
+				$this->register_string( 'Registereintrag' );
+				$this->register_string( get_field( 'registereintrag-art', 'options' ), 'euw', true );
+				$this->register_string( get_field( 'registergericht', 'options' ), 'euw', true );
+				$this->register_string( get_field( 'registernummer', 'options' ), 'euw', true );
+				$this->register_string( 'Umsatzsteuer-ID:' );
+				$this->register_string( 'Umsatzsteuer-Identifikationsnummer gemäß §27 a Umsatzsteuergesetz:' );
+				$this->register_string( get_field( 'ust-id', 'options' ), 'euw', false );
 
 				// Custom
-				register_string( 'Telefon' );
-				register_string( 'E-Mail' );
-				register_string( 'Alle Rechte vorbehalten.' );
-				register_string( 'Mehr erfahren' );
+				$this->register_string( 'Telefon' );
+				$this->register_string( 'E-Mail' );
+				$this->register_string( 'Alle Rechte vorbehalten.' );
+				$this->register_string( 'Mehr erfahren' );
 
-                register_string( 'Sorry' );
-                register_string( "we couldn't find what you're looking for" );
+                $this->register_string( 'Sorry' );
+                $this->register_string( "we couldn't find what you're looking for" );
 			}
-
 		}
 
 		function register_menus() {
@@ -270,15 +267,21 @@ if ( ! class_exists( 'ParentSite' ) ) {
 			return $context;
 		}
 
+		function register_string( $string, $domain = 'polylang', $multiline = false ) {
+			$slug = sanitize_title( $string );
+			pll_register_string( $slug, $string, $domain, $multiline );
+		}
+
 		function add_to_twig( $twig ) {
 			/* this is where you can add your own fuctions to twig */
 			$twig->addExtension( new Twig_Extension_StringLoader() );
 //			$twig->addFilter( 'myfoo', new Twig_Filter_Function( 'myfoo' ) );
 			$twig->addFunction( new Twig_SimpleFunction( 'srcset_post_thumbnail', 'srcset_post_thumbnail' ) );
-			$twig->addFunction( new Twig_SimpleFunction( 'placeholder', 'placeholder_image' ) );
+			$twig->addFunction( new Twig_SimpleFunction( 'placeholder', function( $width = 48, $height = 48 ) {
+				return "http://placehold.it/{$width}x{$height}";
+			} ) );
 			$twig->addFunction( new Twig_SimpleFunction( '_e', 'get_translation' ) );
-			$twig->addFunction( new Twig_SimpleFunction( 'acf_form', function($post_type = 'post', $post_status =
-			'draft', $submit_value = 'Update', $updated_message = 'Post updated') {
+			$twig->addFunction( new Twig_SimpleFunction( 'acf_form', function($post_type = 'post', $post_status = 'draft', $submit_value = 'Update', $updated_message = 'Post updated') {
 				if ( function_exists( 'acf_form' ) ) {
 
 					ob_start( );
@@ -301,7 +304,6 @@ if ( ! class_exists( 'ParentSite' ) ) {
 					return $form;
 				}
 			} ) );
-
 			$twig->addFunction( new Twig_SimpleFunction( 'convertTo', function ( $pid, $PostClass = 'TimberPost' ) {
 				if ( is_array( $pid ) && ! TimberHelper::is_array_assoc( $pid ) ) {
 					foreach ( $pid as &$p ) {
@@ -313,7 +315,6 @@ if ( ! class_exists( 'ParentSite' ) ) {
 
 				return new $PostClass( $pid );
 			} ) );
-
 			$twig->addFunction( new Twig_SimpleFunction( 'get_posts', function ( $post_type = 'post', $limit = -1 ) {
 
 				$posts = Timber::get_posts( [
@@ -345,23 +346,8 @@ if ( ! class_exists( 'ParentSite' ) ) {
 	}
 }
 
-//new ParentSite();
-
-if ( ! function_exists( 'placeholder_image' ) ) {
-	function placeholder_image( $width = 48, $height = 48 ) {
-		return "http://placehold.it/{$width}x{$height}";
-	}
-}
-
-if ( ! function_exists( 'register_string' ) ) {
-	function register_string( $string, $domain = 'polylang', $multiline = false ) {
-		$slug = sanitize_title( $string );
-		pll_register_string( $slug, $string, $domain, $multiline );
-	}
-}
-
 if ( ! function_exists( 'get_translation' ) ) {
-	function get_translation( $translated_text, $domain = 'polylang' ) {
+	function( $translated_text, $domain = 'polylang' ) {
 
 		if ( function_exists( 'pll__' ) ) {
 			$translated_text = pll__( $translated_text, $domain );
