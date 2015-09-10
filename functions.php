@@ -276,7 +276,6 @@ if ( ! class_exists( 'ParentSite' ) ) {
 			/* this is where you can add your own fuctions to twig */
 			$twig->addExtension( new Twig_Extension_StringLoader() );
 //			$twig->addFilter( 'myfoo', new Twig_Filter_Function( 'myfoo' ) );
-			$twig->addFunction( new Twig_SimpleFunction( 'srcset_post_thumbnail', 'srcset_post_thumbnail' ) );
 			$twig->addFunction( new Twig_SimpleFunction( 'placeholder', function( $width = 48, $height = 48 ) {
 				return "http://placehold.it/{$width}x{$height}";
 			} ) );
