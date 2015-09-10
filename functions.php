@@ -16,7 +16,7 @@ if ( ! class_exists( 'Timber' ) ) {
 	return;
 }
 
-if (! defined('THEME_URL')) {
+if ( ! defined( 'THEME_URL' ) ) {
 	define( 'THEME_URL', get_template_directory_uri() );
 }
 
@@ -30,18 +30,18 @@ if ( ! class_exists( 'ParentSite' ) ) {
 		public $creationDate;
 		public $analyticsProfile;
 
-		function __construct($options = array()) {
+		function __construct( $options = array() ) {
 			parent::__construct( $options );
 
 			add_theme_support( 'post-formats' );
 			add_theme_support( 'post-thumbnails' );
 			add_theme_support( 'menus' );
 			add_theme_support( 'html5', array(
-					'search-form',
-					'comment-form',
-					'comment-list',
-					'gallery',
-					'caption'
+				'search-form',
+				'comment-form',
+				'comment-list',
+				'gallery',
+				'caption'
 			) );
 			add_filter( 'timber_context', array( $this, 'add_to_context' ) );
 			add_filter( 'get_twig', array( $this, 'add_to_twig' ) );
@@ -60,7 +60,7 @@ if ( ! class_exists( 'ParentSite' ) ) {
 			add_filter( 'wpcf7_load_js', '__return_false' );
 			add_filter( 'wpcf7_load_css', '__return_false' );
 
-			$this->creationDate = Carbon::now();
+			$this->creationDate     = Carbon::now();
 			$this->analyticsProfile = null;
 		}
 
@@ -184,8 +184,8 @@ if ( ! class_exists( 'ParentSite' ) ) {
 				$this->register_string( 'Alle Rechte vorbehalten.' );
 				$this->register_string( 'Mehr erfahren' );
 
-                $this->register_string( 'Sorry' );
-                $this->register_string( "we couldn't find what you're looking for" );
+				$this->register_string( 'Sorry' );
+				$this->register_string( "we couldn't find what you're looking for" );
 			}
 		}
 
@@ -245,10 +245,10 @@ if ( ! class_exists( 'ParentSite' ) ) {
 				$context['global_businessinfo_telefax_link']       = get_field( 'telefax-link', 'options' );
 				$context['global_businessinfo_email']              = get_field( 'e-mail', 'options' );
 
-				$context['fallback_header_image']              = get_field( 'fallback_header_image', 'options' );
+				$context['fallback_header_image'] = get_field( 'fallback_header_image', 'options' );
 			}
 
-			if (function_exists('acf_form_head')) {
+			if ( function_exists( 'acf_form_head' ) ) {
 				ob_start();
 
 //				acf_form_head();
@@ -258,10 +258,10 @@ if ( ! class_exists( 'ParentSite' ) ) {
 				ob_clean();
 			}
 
-			$detect = new Mobile_Detect;
-			$context['isMobile'] = $detect->isMobile();
-			$context['isTablet'] = $detect->isTablet();
-			$context['isPhone'] = $detect->isMobile() && ! $detect->isTablet();
+			$detect                 = new Mobile_Detect;
+			$context['isMobile']    = $detect->isMobile();
+			$context['isTablet']    = $detect->isTablet();
+			$context['isPhone']     = $detect->isMobile() && ! $detect->isTablet();
 			$context['deviceClass'] = $detect->isMobile() ? $detect->isTablet() ? 'tablet' : 'phone' : 'desktop';
 
 			return $context;
@@ -276,14 +276,14 @@ if ( ! class_exists( 'ParentSite' ) ) {
 			/* this is where you can add your own fuctions to twig */
 			$twig->addExtension( new Twig_Extension_StringLoader() );
 //			$twig->addFilter( 'myfoo', new Twig_Filter_Function( 'myfoo' ) );
-			$twig->addFunction( new Twig_SimpleFunction( 'placeholder', function( $width = 48, $height = 48 ) {
+			$twig->addFunction( new Twig_SimpleFunction( 'placeholder', function ( $width = 48, $height = 48 ) {
 				return "http://placehold.it/{$width}x{$height}";
 			} ) );
 			$twig->addFunction( new Twig_SimpleFunction( '_e', 'get_translation' ) );
-			$twig->addFunction( new Twig_SimpleFunction( 'acf_form', function($post_type = 'post', $post_status = 'draft', $submit_value = 'Update', $updated_message = 'Post updated') {
+			$twig->addFunction( new Twig_SimpleFunction( 'acf_form', function ( $post_type = 'post', $post_status = 'draft', $submit_value = 'Update', $updated_message = 'Post updated' ) {
 				if ( function_exists( 'acf_form' ) ) {
 
-					ob_start( );
+					ob_start();
 
 					acf_form( array(
 						'post_id'         => 'new_post',
@@ -314,7 +314,7 @@ if ( ! class_exists( 'ParentSite' ) ) {
 
 				return new $PostClass( $pid );
 			} ) );
-			$twig->addFunction( new Twig_SimpleFunction( 'get_posts', function ( $post_type = 'post', $limit = -1 ) {
+			$twig->addFunction( new Twig_SimpleFunction( 'get_posts', function ( $post_type = 'post', $limit = - 1 ) {
 
 				$posts = Timber::get_posts( [
 					'post_type'   => $post_type,
@@ -323,7 +323,7 @@ if ( ! class_exists( 'ParentSite' ) ) {
 					'numberposts' => $limit
 				] );
 
-				if ($post_type == 'event') {
+				if ( $post_type == 'event' ) {
 					usort( $posts, function ( $ev_a, $ev_b ) {
 						$a = $ev_a->get_field( 'dates' )[0]['start'];
 						$b = $ev_b->get_field( 'dates' )[0]['start'];
@@ -346,7 +346,7 @@ if ( ! class_exists( 'ParentSite' ) ) {
 }
 
 if ( ! function_exists( 'get_translation' ) ) {
-	function( $translated_text, $domain = 'polylang' ) {
+	function get_translation( $translated_text, $domain = 'polylang' ) {
 
 		if ( function_exists( 'pll__' ) ) {
 			$translated_text = pll__( $translated_text, $domain );
@@ -418,23 +418,24 @@ if ( ! class_exists( 'EventTerm' ) ) {
 
 		}
 
-		public function upcoming_events_for_month($now, $filters = []) {
+		public function upcoming_events_for_month( $now, $filters = [ ] ) {
 
-			$events = $this->get_posts_with_filters($filters);
+			$events = $this->get_posts_with_filters( $filters );
 
-			$upcomingEventsThisMonth = [];
+			$upcomingEventsThisMonth = [ ];
 
-			foreach ($events as $event) {
-				$event = new EventPost($event);
+			foreach ( $events as $event ) {
+				$event = new EventPost( $event );
 
-				if ($event->start->year == $now->year
-					&& $event->start->month == $now->month
-					&& $event->start->day >= $now->day) {
+				if ( $event->start->year == $now->year
+				     && $event->start->month == $now->month
+				     && $event->start->day >= $now->day
+				) {
 					$upcomingEventsThisMonth[] = $event;
 				}
 			}
 
-			usort($upcomingEventsThisMonth, function($ev_a, $ev_b) {
+			usort( $upcomingEventsThisMonth, function ( $ev_a, $ev_b ) {
 				$a = $ev_a->get_field( 'dates' )[0]['start'];
 				$b = $ev_b->get_field( 'dates' )[0]['start'];
 
@@ -443,7 +444,7 @@ if ( ! class_exists( 'EventTerm' ) ) {
 				}
 
 				return ( $a < $b ) ? - 1 : 1;
-			});
+			} );
 
 			return $upcomingEventsThisMonth;
 
