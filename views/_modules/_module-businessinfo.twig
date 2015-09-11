@@ -1,31 +1,47 @@
-<div class="_module-businessinfo businessinfo--full" itemscope itemtype="http://schema.org/LocalBusiness">
-    <div class="businessinfo-name" itemprop="name">{{ global_businessinfo_firmenbezeichnung }}</div>
-    <div class="businessinfo-address" itemprop="address" itemscope itemtype="http://schema.org/PostalAddress">
-        <span class="businessinfo-streetAddress"
-              itemprop="streetAddress">{{ global_businessinfo_strasse_hausnummer }}</span>
-        <span class="businessinfo-postalCode"
-              itemprop="postalCode">{{ global_businessinfo_postleitzahl }}</span>
-        <span class="businessinfo-addressLocality"
-              itemprop="addressLocality">{{ global_businessinfo_ort }}</span>
-        <span class="businessinfo-addressRegion"
-              itemprop="addressRegion">{{ global_businessinfo_bundesland }}</span>
-        {% if global_businessinfo_land %}
-            , <span class="businessinfo-addressCountry"
-                    itemprop="addressCountry">{{ global_businessinfo_land }}</span>
-        {% endif %}
-    </div>
-    <div class="businessinfo-contact">
+<div class="_module-businessinfo" itemscope itemtype="http://schema.org/LocalBusiness">
+    <h4 class="businessinfo-headline">{{ _e('So findet Ihr uns:') }}</h4>
+
+    {% if (options['firmenbezeichnung']) %}
+        <h4 class="businessinfo-name"><span itemprop="name">{{ options['firmenbezeichnung'] }}</span></h4>
+    {% endif %}
+
+    <span class="businessinfo-address" itemprop="address" itemscope itemtype="http://schema.org/PostalAddress">
+
+        <span itemprop="streetAddress">{{ options['strasse_hausnummer'] }}</span><br>
+        <span itemprop="postalCode">{{ options['postleitzahl'] }}</span>
+        <span itemprop="addressLocality">{{ options['ort'] }}, </span>
+    </span>
+
+    {% if options['telefon'] %}
         <span class="businessinfo-telephone">
-            <strong>{{ _e('Telefon') }}:</strong>
+        <span class="businessinfo-aux">{{ _e('Tel.:') }}</span>
             <span itemprop="telephone">
-                <a href="tel:{{ global_businessinfo_telefon_link }}">{{ global_businessinfo_telefon }}</a>
-            </span>
+            <a href="tel:{{ options['telefon-link'] }}">
+                {{ options['telefon'] }}
+            </a>
         </span>
+    </span>
+    {% endif %}
+
+    {% if options['telefax'] %}
+        <span class="businessinfo-telefax">
+        <span class="businessinfo-aux">{{ _e('Fax:') }}</span>
+            <span itemprop="telefax">
+            <a href="tel:{{ options['telefax-link'] }}">
+                {{ options['telefax'] }}
+            </a>
+        </span>
+    </span>
+    {% endif %}
+
+    {% if options['e-mail'] %}
         <span class="businessinfo-email">
-            <strong>{{ _e('E-Mail') }}:</strong>
+        <span class="businessinfo-aux">{{ _e('E-Mail:') }}</span>
             <span itemprop="email">
-                <a href="mailto:{{ global_businessinfo_email }}">{{ global_businessinfo_email }}</a>
-            </span>
+            <a href="mailto:{{ options['e-mail'] }}">
+                {{ options['e-mail'] }}
+            </a>
         </span>
-    </div>
+    </span>
+    {% endif %}
 </div>

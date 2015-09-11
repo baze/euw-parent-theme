@@ -1,16 +1,11 @@
-{% extends "container.twig" %}
+<div class="content-datenschutz-preambel">
+    <strong>{{ datenschutz_preambel_title }}</strong>
 
-{% block content %}
+    <p>{{ datenschutz_preambel }}</p>
+</div>
 
-    <div class="content-datenschutz-preambel">
-        <strong>{{ datenschutz_preambel_title }}</strong>
+<div class="content-datenschutz-analytics">
+    <strong>{{ datenschutz_analytics_title }}</strong>
 
-        <p>{{ datenschutz_preambel }}</p>
-    </div>
-
-    <div class="content-datenschutz-analytics">
-        <strong>{{ datenschutz_analytics_title }}</strong>
-
-        <p>{{ datenschutz_analytics }}</p>
-    </div>
-{% endblock %}
+    <p>{{ datenschutz_analytics }}</p>
+</div>

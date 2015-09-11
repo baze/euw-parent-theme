@@ -1,0 +1,10 @@
+<section class="_module-gallery">
+
+    {% for image in post.get_field('gallery') %}
+        {% set image = TimberImage(image) %}
+        <a href="{{ image }}" class="gallery-item" data-rel="lightbox[gallery]">
+            <img src="{{ image|resize(300, 200, 'center') }}" alt="">
+        </a>
+    {% endfor %}
+
+</section>
