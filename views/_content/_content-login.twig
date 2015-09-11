@@ -1,3 +1,7 @@
-<div class="_content-page">
-    {% include('_modules/_module-login-form.twig') %}
-</div>
+{% extends "container.twig" %}
+
+{% block content %}
+    <section class="_content-page _content-login">
+        {% include('_modules/_module-login-form.twig') %}
+    </section>
+{% endblock %}

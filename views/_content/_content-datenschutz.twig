@@ -1,3 +1,12 @@
-<div class="_content-datenschutz">
-    {% include('_modules/_module-datenschutz.twig') %}
-</div>
+{% extends "container.twig" %}
+
+{% block content %}
+    <section class="_content-page _content-datenschutz">
+
+        <h1 class="content-title">{{ post.post_title }}</h1>
+
+        {% include('_modules/_module-datenschutz.twig') %}
+
+    </section>
+{% endblock %}
+

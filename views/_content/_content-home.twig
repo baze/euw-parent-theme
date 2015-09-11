@@ -1,7 +1,8 @@
-<div class="_content-home">
+{% extends "container.twig" %}
 
-    {% include('_modules/_module-home-hero.twig') %}
-    {% include('_modules/_module-content.twig') with {'displayTitle': false} %}
-    {% include('_modules/_module-home-about.twig') %}
+{% block content %}
+    <section class="_content-home _content-page">
+        {% include('_modules/_module-entry-content.twig') %}
+    </section>
+{% endblock %}
 
-</div>
