@@ -1,0 +1,10 @@
+<section class="_module-contact-form">
+
+    {% if post.get_field('contact-form-headline') %}
+        <h2 class="contact-form-headline">{{ post.get_field('contact-form-headline') }}</h2>
+    {% endif %}
+
+    <div class="contact-form">
+        {{ post.get_field('form') }}
+    </div>
+</section>

@@ -51,6 +51,7 @@ if ( ! class_exists( 'ParentSite' ) ) {
 			add_action( 'init', array( $this, 'register_strings' ) );
 			add_action( 'init', array( $this, 'really_block_users' ) );
 			add_action( 'init', array( $this, 'add_options_page' ) );
+//			add_action( 'init', array( $this, 'allowEditorsToEditMenuStructure' ) );
 			add_action( 'widgets_init', array( $this, 'register_sidebars' ) );
 			add_filter( 'wp_default_scripts', array( $this, 'dequeue_jquery_migrate' ) );
 			add_filter( 'acf/save_post', array( $this, 'my_save_post' ) );
@@ -74,6 +75,13 @@ if ( ! class_exists( 'ParentSite' ) ) {
 				'before_title'  => '<h2 class="widget-title">',
 				'after_title'   => '</h2>',
 			) );
+		}
+
+		function allowEditorsToEditMenuStructure() {
+			$roleObject = get_role( 'editor' );
+			if ( ! $roleObject->has_cap( 'edit_theme_options' ) ) {
+				$roleObject->add_cap( 'edit_theme_options' );
+			}
 		}
 
 		function add_options_page() {
@@ -276,6 +284,12 @@ if ( ! class_exists( 'ParentSite' ) ) {
 			/* this is where you can add your own fuctions to twig */
 			$twig->addExtension( new Twig_Extension_StringLoader() );
 //			$twig->addFilter( 'myfoo', new Twig_Filter_Function( 'myfoo' ) );
+			$twig->addFilter( 'dump', new Twig_Filter_Function( function($text) {
+				echo "<pre>";
+				var_dump( $text );
+				echo "</pre>";
+				return $text;
+			} ) );
 			$twig->addFunction( new Twig_SimpleFunction( 'placeholder', function ( $width = 48, $height = 48 ) {
 				return "http://placehold.it/{$width}x{$height}";
 			} ) );
