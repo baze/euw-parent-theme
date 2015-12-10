@@ -24,6 +24,10 @@ include( __DIR__ . '/_inc/acf/acf-company-info.php' );
 include( __DIR__ . '/_inc/acf/acf-legal.php' );
 include( __DIR__ . '/_inc/acf/acf-privacy-policy.php' );
 
+define( 'WPCF7_LOAD_JS', false ); // Added to disable JS loading
+define( 'WPCF7_LOAD_CSS', false ); // Added to disable CSS loading
+define( 'WPCF7_AUTOP', false );
+
 if ( ! class_exists( 'ParentSite' ) ) {
 	class ParentSite extends TimberSite {
 
@@ -43,6 +47,7 @@ if ( ! class_exists( 'ParentSite' ) ) {
 				'gallery',
 				'caption'
 			) );
+			
 			add_filter( 'timber_context', array( $this, 'add_to_context' ) );
 			add_filter( 'get_twig', array( $this, 'add_to_twig' ) );
 			add_action( 'init', array( $this, 'register_post_types' ) );
@@ -53,9 +58,12 @@ if ( ! class_exists( 'ParentSite' ) ) {
 			add_action( 'init', array( $this, 'add_options_page' ) );
 //			add_action( 'init', array( $this, 'allowEditorsToEditMenuStructure' ) );
 			add_action( 'widgets_init', array( $this, 'register_sidebars' ) );
+			add_action( 'wp_enqueue_scripts', [$this, 'remove_stylesheets'], 25 );
+
 			add_filter( 'wp_default_scripts', array( $this, 'dequeue_jquery_migrate' ) );
 			add_filter( 'acf/save_post', array( $this, 'my_save_post' ) );
-//			add_filter( 'acf/update_value', 'wp_kses_post', 10, 1 );
+//			
+			add_filter( 'acf/update_value', 'wp_kses_post', 10, 1 );
 			remove_action( 'wp_head', 'wp_generator' );
 
 			add_filter( 'wpcf7_load_js', '__return_false' );
@@ -118,6 +126,18 @@ if ( ! class_exists( 'ParentSite' ) ) {
 					wp_redirect( home_url() );
 					exit;
 				}
+			}
+		}
+
+		function remove_stylesheets() {
+			$styles = [
+				'dlm-frontend',
+				'mailchimp-for-wp-checkbox'
+			];
+
+			foreach ($styles as $style) {
+				wp_dequeue_style( $style );
+				wp_deregister_style( $style );
 			}
 		}
 
