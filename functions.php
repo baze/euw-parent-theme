@@ -24,9 +24,19 @@ include( __DIR__ . '/_inc/acf/acf-company-info.php' );
 include( __DIR__ . '/_inc/acf/acf-legal.php' );
 include( __DIR__ . '/_inc/acf/acf-privacy-policy.php' );
 
-define( 'WPCF7_LOAD_JS', false ); // Added to disable JS loading
-define( 'WPCF7_LOAD_CSS', false ); // Added to disable CSS loading
-define( 'WPCF7_AUTOP', false );
+// Added to disable JS loading
+if ( ! defined( 'WPCF7_LOAD_JS' ) ) {
+	define( 'WPCF7_LOAD_JS', false );
+} 
+
+// Added to disable CSS loading
+if ( ! defined( 'WPCF7_LOAD_CSS' ) ) {
+	define( 'WPCF7_LOAD_CSS', false );
+} 
+
+if ( ! defined( 'WPCF7_AUTOP' ) ) {
+	define( 'WPCF7_AUTOP', false );
+}
 
 if ( ! class_exists( 'ParentSite' ) ) {
 	class ParentSite extends TimberSite {
@@ -34,8 +44,8 @@ if ( ! class_exists( 'ParentSite' ) ) {
 		public $creationDate;
 		public $analyticsProfile;
 
-		function __construct( $options = array() ) {
-			parent::__construct( $options );
+		function __construct( $site_name_or_id = null ) {
+			parent::__construct( $site_name_or_id );
 
 			add_theme_support( 'post-formats' );
 			add_theme_support( 'post-thumbnails' );
@@ -61,9 +71,10 @@ if ( ! class_exists( 'ParentSite' ) ) {
 			add_action( 'wp_enqueue_scripts', [$this, 'remove_stylesheets'], 25 );
 
 			add_filter( 'wp_default_scripts', array( $this, 'dequeue_jquery_migrate' ) );
-			add_filter( 'acf/save_post', array( $this, 'my_save_post' ) );
-//			
-			add_filter( 'acf/update_value', 'wp_kses_post', 10, 1 );
+
+			// add_filter( 'acf/save_post', array( $this, 'my_save_post' ) );
+			// add_filter( 'acf/update_value', 'wp_kses_post', 10, 1 );
+			
 			remove_action( 'wp_head', 'wp_generator' );
 
 			add_filter( 'wpcf7_load_js', '__return_false' );
