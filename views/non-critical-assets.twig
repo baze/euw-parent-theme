@@ -15,6 +15,12 @@
     }
     loadCSS("{{ theme.uri }}/dest/css/non-critical.css", window.document.getElementById("scriptHook"));
 
+    {% for style in async_styles %}
+        loadCSS( "{{ plugins_url }}{{ style }}",
+                window.document.getElementById
+        ("scriptHook"));
+    {% endfor %}
+
     function loadJS(src, before) {
         "use strict";
         var ref = before || window.document.getElementsByTagName("script")[0];

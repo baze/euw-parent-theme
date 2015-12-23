@@ -305,6 +305,11 @@ if ( ! class_exists( 'ParentSite' ) ) {
 			$context['isPhone']     = $detect->isMobile() && ! $detect->isTablet();
 			$context['deviceClass'] = $detect->isMobile() ? $detect->isTablet() ? 'tablet' : 'phone' : 'desktop';
 
+			$context['plugins_url'] = plugins_url();
+			$context['async_styles'] = [
+				"/contact-form-7/includes/css/styles.css"
+			];
+
 			return $context;
 		}
 
