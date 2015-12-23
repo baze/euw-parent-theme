@@ -16,9 +16,8 @@ if ( ! class_exists( 'Timber' ) ) {
 	return;
 }
 
-if ( ! defined( 'THEME_URL' ) ) {
+if ( ! defined( 'THEME_URL' ) )
 	define( 'THEME_URL', get_template_directory_uri() );
-}
 
 include( __DIR__ . '/_inc/acf/acf-company-info.php' );
 include( __DIR__ . '/_inc/acf/acf-legal.php' );
@@ -43,6 +42,8 @@ if ( ! class_exists( 'ParentSite' ) ) {
 
 		public $creationDate;
 		public $analyticsProfile;
+		public $scripts_to_defer = [ ];
+		public $scripts_to_async = [ ];
 
 		function __construct( $site_name_or_id = null ) {
 			parent::__construct( $site_name_or_id );
@@ -57,7 +58,7 @@ if ( ! class_exists( 'ParentSite' ) ) {
 				'gallery',
 				'caption'
 			) );
-			
+
 			add_filter( 'timber_context', array( $this, 'add_to_context' ) );
 			add_filter( 'get_twig', array( $this, 'add_to_twig' ) );
 			add_action( 'init', array( $this, 'register_post_types' ) );
@@ -68,9 +69,10 @@ if ( ! class_exists( 'ParentSite' ) ) {
 			add_action( 'init', array( $this, 'add_options_page' ) );
 //			add_action( 'init', array( $this, 'allowEditorsToEditMenuStructure' ) );
 			add_action( 'widgets_init', array( $this, 'register_sidebars' ) );
-			add_action( 'wp_enqueue_scripts', [$this, 'remove_stylesheets'], 25 );
+			add_action( 'wp_enqueue_scripts', [ $this, 'remove_stylesheets' ], 25 );
 
 			add_filter( 'wp_default_scripts', array( $this, 'dequeue_jquery_migrate' ) );
+			add_filter( 'script_loader_tag', array( $this, 'defer_js_async'), 10 );
 
 			// add_filter( 'acf/save_post', array( $this, 'my_save_post' ) );
 			// add_filter( 'acf/update_value', 'wp_kses_post', 10, 1 );
@@ -146,7 +148,7 @@ if ( ! class_exists( 'ParentSite' ) ) {
 				'mailchimp-for-wp-checkbox'
 			];
 
-			foreach ($styles as $style) {
+			foreach ( $styles as $style ) {
 				wp_dequeue_style( $style );
 				wp_deregister_style( $style );
 			}
@@ -256,7 +258,7 @@ if ( ! class_exists( 'ParentSite' ) ) {
 			}
 
 			if ( function_exists( 'get_fields' ) ) {
-				$context['options'] = get_fields( 'option' );
+				$context['options'] = get_fields( 'options' );
 
 //				dd($context['options']['global-openinghours-list'][0]['range'][0]);
 			}
@@ -315,10 +317,11 @@ if ( ! class_exists( 'ParentSite' ) ) {
 			/* this is where you can add your own fuctions to twig */
 			$twig->addExtension( new Twig_Extension_StringLoader() );
 //			$twig->addFilter( 'myfoo', new Twig_Filter_Function( 'myfoo' ) );
-			$twig->addFilter( 'dump', new Twig_Filter_Function( function($text) {
+			$twig->addFilter( 'dump', new Twig_Filter_Function( function ( $text ) {
 				echo "<pre>";
 				var_dump( $text );
 				echo "</pre>";
+
 				return $text;
 			} ) );
 			$twig->addFunction( new Twig_SimpleFunction( 'placeholder', function ( $width = 48, $height = 48 ) {
@@ -385,6 +388,30 @@ if ( ! class_exists( 'ParentSite' ) ) {
 			} ) );
 
 			return $twig;
+		}
+
+		/*function to add async and defer attributes*/
+		function defer_js_async( $tag ) {
+
+			// 1: list of scripts to defer.
+			$scripts_to_defer = $this->scripts_to_defer;
+			// 2: list of scripts to async.
+			$scripts_to_async = $this->scripts_to_async;
+
+			// defer scripts
+			foreach ( $scripts_to_defer as $defer_script ) {
+				if ( true == strpos( $tag, $defer_script ) ) {
+					return str_replace( ' src', ' defer="defer" src', $tag );
+				}
+			}
+			// async scripts
+			foreach ( $scripts_to_async as $async_script ) {
+				if ( true == strpos( $tag, $async_script ) ) {
+					return str_replace( ' src', ' async="async" src', $tag );
+				}
+			}
+
+			return $tag;
 		}
 
 	}
