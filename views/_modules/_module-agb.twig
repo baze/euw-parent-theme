@@ -1,5 +1,4 @@
 <section class="_module-agb">
-
     {% if post.get_field('tos-headline') %}
         <h2 class="tos-headline">{{ post.get_field('tos-headline') }}</h2>
     {% endif %}
@@ -7,32 +6,34 @@
     {% for section in post.get_field('tos-sections') %}
         <ul class="tos-sections">
 
-            {% if section.get_field('tos-section-headline') %}
-                <h3 class="tos-section-headline">{{ section.get_field('tos-section-headline') }}</h3>
-            {% endif %}
+            <li class="tos-section">
+                {% if section['tos-section-headline'] %}
+                    <h3 class="tos-section-headline">{{ section['tos-section-headline'] }}</h3>
+                {% endif %}
 
-            {% if section.get_field('tos-article-list') %}
-                <ul class="tos-article-list">
-            {% endif %}
+                {% if section['tos-article-list'] %}
+                    <ul class="tos-article-list">
+                {% endif %}
 
-            {% for article in section.get_field('tos-article-list') %}
-                <li class="tos-article">
-                    <article class="tos-article-content">
-                        {{ article.content }}
-                    </article>
-                </li>
-            {% endfor %}
+                {% for article in section['tos-article-list'] %}
+                    <li class="tos-article">
+                        <article class="tos-article-content">
+                            {{ article['content'] }}
+                        </article>
+                    </li>
+                {% endfor %}
 
-            {% if section.get_field('tos-article-list') %}
-                </ul>
-            {% endif %}
+                {% if section['tos-article-list'] %}
+                    </ul>
+                {% endif %}
+            </li>
 
         </ul>
     {% endfor %}
 
     {% if post.get_field('tos-download') %}
         <h3 class="tos-download-title">
-            <a href="{{ post.get_field('tos-download') }}">{{ _e('AGB herunterladen') }}</a>
+            <a href="{{ post.get_field('tos-download') }}" class="btn btn--highlight btn--large btn--lg">{{ _e('AGB herunterladen') }}</a>
         </h3>
     {% endif %}
 </section>

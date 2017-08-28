@@ -1,0 +1,12 @@
+<form role="search" method="get" class="search-form" action="{{ site.url }}">
+    <label>
+        <span class="screen-reader-text">{{ _e('Search for:') }}</span>
+        <input type="search" class="search-field" placeholder="{{ _e('Durchsuchen') }}" value="" name="s" title="{{ _e('Suchen nach:') }}" />
+
+		{% for key,value in search_params %}
+			<input type="hidden" name="{{ key }}" value="{{ value }}" />
+		{% endfor %}
+
+    </label>
+    <button type="submit" class="search-submit">{{ _e('Suchen') }}</button>
+</form>

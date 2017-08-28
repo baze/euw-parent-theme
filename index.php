@@ -13,13 +13,31 @@
  * @since        Timber 0.1
  */
 
-$context = Timber::get_context();
-$args = array(
-    'posts_per_page' => -1,
-    'post_type'      => 'mitarbeiter'
-);
+global $paged;
+if ( ! isset( $paged ) || ! $paged ) {
+	$paged = 1;
+}
 
-$context['posts'] = Timber::get_posts($args);
+$context = Timber::get_context();
+$post = new TimberPost();
+$context['post'] = $post;
+
+$args = [
+	'post_type'      => 'post',
+	'order_by'       => 'date',
+	'order'          => 'DESC',
+//	'posts_per_page' => 1,
+	'paged'          => $paged
+];
+
+/* THIS LINE IS CRUCIAL */
+/* in order for WordPress to know what to paginate */
+/* your args have to be the defualt query */
+query_posts( $args );
+
+/* make sure you've got query_posts in your .php file */
+$context['posts'] = Timber::get_posts();
+$context['pagination'] = Timber::get_pagination();
 
 $templates = array('index.twig');
 if (is_home()) {

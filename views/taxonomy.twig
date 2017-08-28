@@ -1,5 +1,5 @@
 {% extends "base.twig" %}
 
 {% block content %}
-    {% include('_content/_content-taxonomy.twig') %}
+    {% include('_content/_content-taxonomy--' ~ term.slug ~ '.twig', '_content/_content-taxonomy.twig') %}
 {% endblock %}

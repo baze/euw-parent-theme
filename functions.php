@@ -22,6 +22,8 @@ if ( ! defined( 'THEME_URL' ) )
 include( __DIR__ . '/_inc/acf/acf-company-info.php' );
 include( __DIR__ . '/_inc/acf/acf-legal.php' );
 include( __DIR__ . '/_inc/acf/acf-privacy-policy.php' );
+include( __DIR__ . '/_inc/acf/acf-analytics.php' );
+include( __DIR__ . '/_inc/acf/acf-header-logo.php' );
 
 // Added to disable JS loading
 if ( ! defined( 'WPCF7_LOAD_JS' ) ) {
@@ -58,6 +60,7 @@ if ( ! class_exists( 'ParentSite' ) ) {
 				'gallery',
 				'caption'
 			) );
+			add_post_type_support('page', 'excerpt');
 
 			add_filter( 'timber_context', array( $this, 'add_to_context' ) );
 			add_filter( 'get_twig', array( $this, 'add_to_twig' ) );
@@ -65,11 +68,15 @@ if ( ! class_exists( 'ParentSite' ) ) {
 			add_action( 'init', array( $this, 'register_taxonomies' ) );
 			add_action( 'init', array( $this, 'register_menus' ) );
 			add_action( 'init', array( $this, 'register_strings' ) );
-			add_action( 'init', array( $this, 'really_block_users' ) );
+//			add_action( 'init', array( $this, 'really_block_users' ) );
 			add_action( 'init', array( $this, 'add_options_page' ) );
 //			add_action( 'init', array( $this, 'allowEditorsToEditMenuStructure' ) );
 			add_action( 'widgets_init', array( $this, 'register_sidebars' ) );
 			add_action( 'wp_enqueue_scripts', [ $this, 'remove_stylesheets' ], 25 );
+
+			add_filter( 'posts_join', [ $this, 'cf_search_join' ] );
+			add_filter( 'posts_where', [ $this, 'cf_search_where' ] );
+			add_filter( 'posts_distinct', [ $this, 'cf_search_distinct' ] );
 
 			add_filter( 'wp_default_scripts', array( $this, 'dequeue_jquery_migrate' ) );
 			add_filter( 'script_loader_tag', array( $this, 'defer_js_async'), 10 );
@@ -128,6 +135,12 @@ if ( ! class_exists( 'ParentSite' ) ) {
 					'parent_slug' => 'theme-general-settings',
 				) );
 
+				acf_add_options_sub_page( array(
+					'page_title'  => 'Theme Admin Settings',
+					'menu_title'  => 'Admin',
+					'parent_slug' => 'theme-general-settings',
+				) );
+
 			}
 		}
 
@@ -135,7 +148,7 @@ if ( ! class_exists( 'ParentSite' ) ) {
 			$isAjax = ( defined( 'DOING_AJAX' ) && true === DOING_AJAX ) ? true : false;
 
 			if ( ! $isAjax ) {
-				if ( is_admin() && ! current_user_can( 'administrator' ) ) {
+				if ( is_admin() && ! current_user_can( 'publish_posts' ) ) {
 					wp_redirect( home_url() );
 					exit;
 				}
@@ -153,6 +166,39 @@ if ( ! class_exists( 'ParentSite' ) ) {
 				wp_deregister_style( $style );
 			}
 		}
+
+		function cf_search_join( $join ) {
+		    global $wpdb;
+
+		    if ( is_search() ) {    
+		        $join .=' LEFT JOIN '.$wpdb->postmeta. ' ON '. $wpdb->posts . '.ID = ' . $wpdb->postmeta . '.post_id ';
+		    }
+		    
+		    return $join;
+		}
+
+		function cf_search_where( $where ) {
+		    global $pagenow, $wpdb;
+		   
+		    if ( is_search() ) {
+		        $where = preg_replace(
+		            "/\(\s*".$wpdb->posts.".post_title\s+LIKE\s*(\'[^\']+\')\s*\)/",
+		            "(".$wpdb->posts.".post_title LIKE $1) OR (".$wpdb->postmeta.".meta_value LIKE $1)", $where );
+		    }
+
+		    return $where;
+		}
+
+		function cf_search_distinct( $where ) {
+		    global $wpdb;
+
+		    if ( is_search() ) {
+		        return "DISTINCT";
+		    }
+
+		    return $where;
+		}
+
 
 		function dequeue_jquery_migrate( &$scripts ) {
 			if ( ! is_admin() ) {
@@ -174,59 +220,64 @@ if ( ! class_exists( 'ParentSite' ) ) {
 			if ( function_exists( 'pll_register_string' ) ) {
 				// Datenschutz
 				$this->register_string( 'Datenschutz' );
-				$this->register_string( get_field( 'datenschutz-preambel', 'options' ), 'euw', true );
+				$this->register_string( get_field( 'datenschutz-preambel', 'option' ), 'euw', true );
 				$this->register_string( 'Datenschutzerklärung für die Nutzung von Facebook-Plugins (Like-Button)' );
-				$this->register_string( get_field( 'datenschutz-like', 'options' ), 'euw', true );
+				$this->register_string( get_field( 'datenschutz-like', 'option' ), 'euw', true );
 				$this->register_string( 'Datenschutzerklärung für die Nutzung von Google Analytics' );
-				$this->register_string( get_field( 'datenschutz-analytics', 'options' ), 'euw', true );
+				$this->register_string( get_field( 'datenschutz-analytics', 'option' ), 'euw', true );
 				$this->register_string( 'Datenschutzerklärung für die Nutzung von Google Adsense' );
-				$this->register_string( get_field( 'datenschutz-adsense', 'options' ), 'euw', true );
+				$this->register_string( get_field( 'datenschutz-adsense', 'option' ), 'euw', true );
 				$this->register_string( 'Datenschutzerklärung für die Nutzung von Google +1' );
-				$this->register_string( get_field( 'datenschutz-plus', 'options' ), 'euw', true );
+				$this->register_string( get_field( 'datenschutz-plus', 'option' ), 'euw', true );
 				$this->register_string( 'Datenschutzerklärung für die Nutzung von Twitter' );
-				$this->register_string( get_field( 'datenschutz-twitter', 'options' ), 'euw', true );
+				$this->register_string( get_field( 'datenschutz-twitter', 'option' ), 'euw', true );
 
 				// Impressum
 				$this->register_string( 'Disclaimer' );
-				$this->register_string( get_field( 'disclaimer_anzeigen', 'options' ), 'euw', false );
+				$this->register_string( get_field( 'disclaimer_anzeigen', 'option' ), 'euw', false );
 				$this->register_string( 'Haftung für Inhalte' );
-				$this->register_string( get_field( 'haftung-fuer-inhalte', 'options' ), 'euw', true );
+				$this->register_string( get_field( 'haftung-fuer-inhalte', 'option' ), 'euw', true );
 				$this->register_string( 'Haftung für Links' );
-				$this->register_string( get_field( 'haftung-fuer-links', 'options' ), 'euw', true );
+				$this->register_string( get_field( 'haftung-fuer-links', 'option' ), 'euw', true );
 				$this->register_string( 'Urheberrecht' );
-				$this->register_string( get_field( 'urheberrecht', 'options' ), 'euw', true );
+				$this->register_string( get_field( 'urheberrecht', 'option' ), 'euw', true );
 
 				// tmg
 				$this->register_string( 'Angaben gemäß § 5 TMG:' );
-				$this->register_string( get_field( 'firmenbezeichnung', 'options' ), 'euw', false );
-				$this->register_string( get_field( 'strasse_hausnummer', 'options' ), 'euw', false );
-				$this->register_string( get_field( 'postleitzahl', 'options' ), 'euw', false );
-				$this->register_string( get_field( 'ort', 'options' ), 'euw', false );
+				$this->register_string( get_field( 'firmenbezeichnung', 'option' ), 'euw', false );
+				$this->register_string( get_field( 'strasse_hausnummer', 'option' ), 'euw', false );
+				$this->register_string( get_field( 'postleitzahl', 'option' ), 'euw', false );
+				$this->register_string( get_field( 'ort', 'option' ), 'euw', false );
 				$this->register_string( 'Vertreten durch:' );
-				$this->register_string( get_field( 'vertretungsberechtigt', 'options' ), 'euw', true );
+				$this->register_string( get_field( 'vertretungsberechtigt', 'option' ), 'euw', true );
 				$this->register_string( 'Kontakt' );
 				$this->register_string( 'Telefon:' );
-				$this->register_string( get_field( 'telefon', 'options' ), 'euw', false );
+				$this->register_string( get_field( 'telefon', 'option' ), 'euw', false );
 				$this->register_string( 'Telefax:' );
-				$this->register_string( get_field( 'telefax', 'options' ), 'euw', false );
+				$this->register_string( get_field( 'telefax', 'option' ), 'euw', false );
 				$this->register_string( 'E-Mail:' );
-				$this->register_string( get_field( 'e-mail', 'options' ), 'euw', false );
+				$this->register_string( get_field( 'e-mail', 'option' ), 'euw', false );
 				$this->register_string( 'Registereintrag' );
-				$this->register_string( get_field( 'registereintrag-art', 'options' ), 'euw', true );
-				$this->register_string( get_field( 'registergericht', 'options' ), 'euw', true );
-				$this->register_string( get_field( 'registernummer', 'options' ), 'euw', true );
+				$this->register_string( get_field( 'registereintrag-art', 'option' ), 'euw', true );
+				$this->register_string( get_field( 'registergericht', 'option' ), 'euw', true );
+				$this->register_string( get_field( 'registernummer', 'option' ), 'euw', true );
 				$this->register_string( 'Umsatzsteuer-ID:' );
 				$this->register_string( 'Umsatzsteuer-Identifikationsnummer gemäß §27 a Umsatzsteuergesetz:' );
-				$this->register_string( get_field( 'ust-id', 'options' ), 'euw', false );
+				$this->register_string( get_field( 'ust-id', 'option' ), 'euw', false );
 
 				// Custom
 				$this->register_string( 'Telefon' );
 				$this->register_string( 'E-Mail' );
-				$this->register_string( 'Alle Rechte vorbehalten.' );
+				$this->register_string( 'alle Rechte vorbehalten.' );
 				$this->register_string( 'Mehr erfahren' );
 
 				$this->register_string( 'Sorry' );
 				$this->register_string( "we couldn't find what you're looking for" );
+
+				$this->register_string( "Search …" );
+				$this->register_string( "Search for:" );
+				$this->register_string( "Stichwortsuche" );
+				$this->register_string( "Suchergebnisse für" );
 			}
 		}
 
@@ -239,6 +290,10 @@ if ( ! class_exists( 'ParentSite' ) ) {
 		}
 
 		public function add_to_context( $context ) {
+
+			$context['pll_e'] = TimberHelper::function_wrapper( 'pll_e' );
+			$context['pll__'] = TimberHelper::function_wrapper( 'pll__' );
+
 			$context['site'] = $this;
 
 			$context['now']          = Carbon::now();
@@ -251,53 +306,88 @@ if ( ! class_exists( 'ParentSite' ) ) {
 			$context['menu_custom']    = new TimberMenu( "menu_custom" );
 
 			$context['dynamic_sidebar'] = Timber::get_widgets( 'dynamic_sidebar' );
-			$context['search_form']     = get_search_form( $echo = false );
+			// $context['search_form']     = get_search_form( $echo = false );
+
 
 			if ( function_exists( 'yoast_breadcrumb' ) ) {
 				$context['breadcrumbs'] = yoast_breadcrumb( '<div id="breadcrumbs" class="_snippet-breadcrumbs" itemscope itemtype="http://data-vocabulary.org/Breadcrumb">', '</div>', false );
 			}
-
+			
+			// should be cached, is slow
 			if ( function_exists( 'get_fields' ) ) {
-				$context['options'] = get_fields( 'options' );
+				
+				// $context['options'] = get_fields( 'option' );
+				
+			// 	$context['options'] = TimberHelper::transient( 'options', function () {
+			// 		$options = get_fields( 'option' );
 
-//				dd($context['options']['global-openinghours-list'][0]['range'][0]);
+			// 		return $options;
+			// 	}, 600 );
+
+				$context['options'] = array();
+
+				foreach ([
+					// 'firmenbezeichnung', 
+					// 'vertretungsberechtigt',
+					// 'strasse_hausnummer',
+					// 'postleitzahl',
+					// 'ort',
+					// 'bundesland',
+					// 'land',
+					// 'telefon',
+					// 'telefon-link',
+					// 'telefax',
+					// 'telefax-link',
+					// 'e-mail',
+					// 'registereintrag-art',
+					// 'registergericht',
+					// 'registernummer',
+					// 'ust-id',
+					// 'social-facebook',
+					// 'social-twitter',
+					// 'social-google',
+					// 'social-youtube',
+					// 'social-linkedin',
+					// 'social-xing',
+					// 'social-instagram',
+					// 'global_header_logo_svg',
+					// 'global_header_logo_image',
+					// 'global_breadcrumbs_logo_svg',
+					// 'global_footer_logo_svg',
+					// 'google_analytics_id',
+					// 'google_tag_manager_id',
+					// 'globales_kontaktformular',
+					// 'globales_kontaktformular-ueberschrift',
+					// 'job-cta',
+					// 'job-cta-contact',
+					// 'job-cta-form',
+					// 'business_hours',
+					// 'trust_elements_items',
+					] as $value) {
+					$context['options'][$value] = get_field( $value, 'option' );
+				}
+				
 			}
 
 			if ( function_exists( 'pll_the_languages' ) ) {
 				$context['language_switcher'] = pll_the_languages( $args = [
-					'show_names'             => 0,
-					'show_flags'             => 1,
+					'show_names'             => 1,
+					'show_flags'             => 0,
 					'hide_if_empty'          => 0,
 					'hide_if_no_translation' => 0,
 					'hide_current'           => 0,
-					'echo'                   => 0
+					'echo'                   => 0,
+					'display_names_as'		 => 'slug' // default 'names'
 				] );
 			}
 
-			if ( function_exists( 'get_field' ) ) {
-				$context['global_businessinfo_firmenbezeichnung']  = get_field( 'firmenbezeichnung', 'options' );
-				$context['global_businessinfo_strasse_hausnummer'] = get_field( 'strasse_hausnummer', 'options' );
-				$context['global_businessinfo_postleitzahl']       = get_field( 'postleitzahl', 'options' );
-				$context['global_businessinfo_ort']                = get_field( 'ort', 'options' );
-				$context['global_businessinfo_bundesland']         = get_field( 'bundesland', 'options' );
-				$context['global_businessinfo_telefon']            = get_field( 'telefon', 'options' );
-				$context['global_businessinfo_telefon_link']       = get_field( 'telefon-link', 'options' );
-				$context['global_businessinfo_telefax']            = get_field( 'telefax', 'options' );
-				$context['global_businessinfo_telefax_link']       = get_field( 'telefax-link', 'options' );
-				$context['global_businessinfo_email']              = get_field( 'e-mail', 'options' );
+			// if ( function_exists( 'acf_form_head' ) ) {
+			// 	ob_start();
 
-				$context['fallback_header_image'] = get_field( 'fallback_header_image', 'options' );
-			}
+			// 	$context['acf_form_head'] = ob_get_contents();
 
-			if ( function_exists( 'acf_form_head' ) ) {
-				ob_start();
-
-//				acf_form_head();
-
-				$context['acf_form_head'] = ob_get_contents();
-
-				ob_clean();
-			}
+			// 	ob_clean();
+			// }
 
 			$detect                 = new Mobile_Detect;
 			$context['isMobile']    = $detect->isMobile();
@@ -306,9 +396,7 @@ if ( ! class_exists( 'ParentSite' ) ) {
 			$context['deviceClass'] = $detect->isMobile() ? $detect->isTablet() ? 'tablet' : 'phone' : 'desktop';
 
 			$context['plugins_url'] = plugins_url();
-			$context['async_styles'] = [
-				"/contact-form-7/includes/css/styles.css"
-			];
+			$context['async_styles'] = [];
 
 			return $context;
 		}
@@ -321,18 +409,40 @@ if ( ! class_exists( 'ParentSite' ) ) {
 		function add_to_twig( $twig ) {
 			/* this is where you can add your own fuctions to twig */
 			$twig->addExtension( new Twig_Extension_StringLoader() );
-//			$twig->addFilter( 'myfoo', new Twig_Filter_Function( 'myfoo' ) );
 			$twig->addFilter( 'dump', new Twig_Filter_Function( function ( $text ) {
-				echo "<pre>";
-				var_dump( $text );
-				echo "</pre>";
+
+				if (is_user_logged_in ()) {
+					$user = wp_get_current_user();
+
+					if ($user->ID == 1) {
+						echo "<pre>";
+						var_dump($text);
+						echo "</pre>";
+					}
+				}
+				
 
 				return $text;
 			} ) );
+
 			$twig->addFunction( new Twig_SimpleFunction( 'placeholder', function ( $width = 48, $height = 48 ) {
 				return "http://placehold.it/{$width}x{$height}";
 			} ) );
+
 			$twig->addFunction( new Twig_SimpleFunction( '_e', 'get_translation' ) );
+
+			$twig->addFunction( new Twig_SimpleFunction( 'search_form', function($search_params = null) {
+
+				$context         = Timber::get_context();
+				$context['search_params'] = $search_params;
+
+				$form = Timber::compile( 'searchform.twig', $context, false );
+
+				return $form;
+
+			} ) );
+
+
 			$twig->addFunction( new Twig_SimpleFunction( 'acf_form', function ( $post_type = 'post', $post_status = 'draft', $submit_value = 'Update', $updated_message = 'Post updated' ) {
 				if ( function_exists( 'acf_form' ) ) {
 
@@ -392,6 +502,57 @@ if ( ! class_exists( 'ParentSite' ) ) {
 				return $posts;
 			} ) );
 
+			$twig->addFunction( new Twig_SimpleFunction( 'get_file', function ( $attachment_id ) {
+				$path = get_attached_file( $attachment_id );
+
+				if (file_exists($path)) return $path;
+			} ) );
+
+			$twig->addFunction( new Twig_SimpleFunction( 'get_file_size', function ( $path ) {
+
+				if ( file_exists( $path ) ) {
+
+					$filesize = filesize( $path );
+
+					$divisor = 0;
+
+					while ($filesize > 1024) {
+						$filesize = $filesize / 1024;
+
+						$divisor++;
+					}
+
+					switch ($divisor) {
+
+						case 1:
+							$unit = 'KB';
+							break;
+
+						case 2:
+							$unit = 'MB';
+							break;
+
+						case 3:
+							$unit = 'GB';
+							break;
+
+						case 4:
+							$unit = 'TB';
+							break;
+
+						default:
+							$unit = 'B';
+							break;
+					}
+
+					return round( $filesize, 2) . ' '. $unit;
+				}
+			} ) );
+
+			$twig->addFunction( new Twig_SimpleFunction( 'responsiveImage', function ( $attachment_id, $size = 'full', $icon = false, $attr = '' ) {
+				return wp_get_attachment_image( $attachment_id, $size, $icon, $attr );
+			} ) );
+
 			return $twig;
 		}
 
@@ -426,12 +587,14 @@ if ( ! function_exists( 'get_translation' ) ) {
 	function get_translation( $translated_text, $domain = 'polylang' ) {
 
 		if ( function_exists( 'pll__' ) ) {
+
 			$translated_text = pll__( $translated_text, $domain );
 		}
 
 		return $translated_text;
 	}
 }
+
 
 if ( ! function_exists( 'dd' ) ) {
 	function dd( $value ) {

@@ -23,10 +23,11 @@ trait LocationTrait {
 			$mymap->options->adaptive        = true;
 			$mymap->options->alignment       = 'default';
 			$mymap->options->border['style'] = '';
-			$mymap->options->directions      = 'none'; //'google';
+			$mymap->options->directions      = 'google'; //'none';
 			$mymap->options->initialOpenInfo = true;
 			$mymap->options->onLoad          = true;
 			$mymap->options->postTypes       = array();
+			$mymap->options->noCSS           = true;
 
 			return $mymap;
 		}

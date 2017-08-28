@@ -14,17 +14,18 @@
  * @since        Timber 0.2
  */
 
+
 $templates = array('archive.twig', 'index.twig');
 
 $data = Timber::get_context();
 
-$data['title'] = 'Archive';
+$data['subtitle'] = 'Archiv für';
 if (is_day()) {
-    $data['title'] = 'Archiv: ' . get_the_date('D M Y');
+    $data['title'] = get_the_date('D M Y');
 } else if (is_month()) {
-    $data['title'] = 'Archiv: ' . get_the_date('M Y');
+    $data['title'] = get_the_date('M Y');
 } else if (is_year()) {
-    $data['title'] = 'Archiv: ' . get_the_date('Y');
+    $data['title'] = get_the_date('Y');
 } else if (is_tag()) {
     $data['title'] = single_tag_title('', false);
 } else if (is_category()) {
@@ -34,6 +35,13 @@ if (is_day()) {
     $data['title'] = post_type_archive_title('', false);
     $data['post_type'] = get_post_type();
     array_unshift($templates, 'archive-' . get_post_type() . '.twig');
+
+    $page = get_page_by_path(get_post_type());
+    
+    if ($page) {
+    	$page = new TimberPage($page);
+    	$data['post'] = $page;
+    }
 }
 
 $data['posts'] = Timber::get_posts();
